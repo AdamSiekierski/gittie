@@ -2,27 +2,11 @@ package main
 
 import (
 	"fmt"
-	"os"
-	"log"
-	"github.com/urfave/cli/v2"
 	"github.com/AdamSiekierski/gittie/utils"
+	"github.com/urfave/cli/v2"
+	"log"
+	"os"
 )
-
-func application(c *cli.Context) error {
-	if c.Bool("list") {
-		_, err := utils.GetTemplates()
-
-		if err != nil {
-			log.Fatalln(err)
-		}
-	}
-
-	if c.String("create") != "" {
-		fmt.Printf("hmmm %s", c.String("create"))
-	}
-
-	return nil
-}
 
 func main() {
 	app := &cli.App{
@@ -47,7 +31,13 @@ func main() {
 
 	app.Action = func(c *cli.Context) error {
 		if c.Bool("list") {
-			fmt.Println("list")
+			templates, err := utils.GetTemplates()
+
+			if err != nil {
+				log.Fatalln(err)
+			}
+
+			fmt.Println(templates)
 		}
 
 		if c.String("template") != "" {

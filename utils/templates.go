@@ -1,12 +1,23 @@
 package utils
 
 import (
-	"fmt"
+	"encoding/json"
+	"net/http"
 )
 
 // GetTemplates : Get all .gitignore templates
 func GetTemplates() ([]string, error) {
-	fmt.Println("list templates")
+	resp, err := http.Get("https://api.github.com/gitignore/templates")
 
-	return nil, nil
+	if err != nil {
+		return nil, err
+	}
+
+	defer resp.Body.Close()
+
+	var data []string
+
+	json.NewDecoder(resp.Body).Decode(&data)
+
+	return data, nil
 }
