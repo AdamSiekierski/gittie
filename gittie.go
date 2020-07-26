@@ -57,6 +57,13 @@ func main() {
 				return err
 			}
 
+			err = utils.WriteGitignore(template)
+
+			if err != nil {
+				log.Fatalln(err)
+				return err
+			}
+
 			fmt.Printf("Successfully created .gitignore from template: %s \n", template["name"])
 		}
 
