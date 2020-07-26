@@ -31,17 +31,33 @@ func main() {
 
 	app.Action = func(c *cli.Context) error {
 		if c.Bool("list") {
-			templates, err := utils.GetTemplates()
+			templates, err := utils.AllTemplates()
 
 			if err != nil {
 				log.Fatalln(err)
+				return err
 			}
 
-			fmt.Println(templates)
+			fmt.Printf("ALL TEMPLATES: \n\n")
+
+			for i, v := range templates {
+				if (i % 2) != 0 {
+					fmt.Printf("|%-21s|\n", v)
+				} else {
+					fmt.Printf("|%-21s|", v)
+				}
+			}
 		}
 
 		if c.String("template") != "" {
-			fmt.Printf("template %s", c.String("create"))
+			template, err := utils.GetTemplate(c.String("template"))
+
+			if err != nil {
+				log.Fatalln(err)
+				return err
+			}
+
+			fmt.Printf("Successfully created .gitignore from template: %s \n", template["name"])
 		}
 
 		return nil

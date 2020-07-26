@@ -5,8 +5,8 @@ import (
 	"net/http"
 )
 
-// GetTemplates : Get all .gitignore templates
-func GetTemplates() ([]string, error) {
+// AllTemplates : Get all .gitignore templates
+func AllTemplates() ([]string, error) {
 	resp, err := http.Get("https://api.github.com/gitignore/templates")
 
 	if err != nil {
